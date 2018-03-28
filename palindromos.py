@@ -15,35 +15,35 @@ def f_pal(estado,lecturas):
     distinto a lo que ya tiene.
     """
     a,b,c = lecturas
-    if estado == 0:
+    if estado == "Avanzador":
         # avanzar al final en la cinta de entrada
         if a != blankSym:
-            return (0,lecturas,(R,S,S))
+            return ("Avanzador",lecturas,(R,S,S))
         else:
-            return (1,lecturas,(L,R,S))
-    elif estado == 1:
+            return ("Copiador",lecturas,(L,R,S))
+    elif estado == "Copiador":
         # copiar la cinta
         if a != playSym:
-            return (1,(a,a,c),(L,R,S))
+            return ("Copiador",(a,a,c),(L,R,S))
         else:
-            return (2,lecturas,(S,S,S))
-    elif estado == 2:
+            return ("Rebobinador",lecturas,(S,S,S))
+    elif estado == "Rebobinador":
         # rebobinar
         if b != playSym:
-            return (2,lecturas,(S,L,S))
+            return ("Rebobinador",lecturas,(S,L,S))
         else:
-            return (3,lecturas,(S,S,S))
-    elif estado == 3:
+            return ("Comparador",lecturas,(S,S,S))
+    elif estado == "Comparador":
         # comparar
         if a == blankSym:
-            return (4,(a,b,"1"),(S,S,S))
+            return ("Impresor",(a,b,"1"),(S,S,S))
         elif a != b:
-            return (4,(a,b,"0"),(S,S,S))
+            return ("Impresor",(a,b,"0"),(S,S,S))
         else:
-            return (3,lecturas,(R,R,S))
+            return ("Comparador",lecturas,(R,R,S))
     else:
         return (estado,lecturas,(S,S,S))
 
 palabra=input("Ingrese una palabra en {0,1}^*:")
-t=TM([0,1,2,3,4],["0","1"],0,[4],f_pal,[palabra])
+t=TM(["Avanzador","Copiador","Rebobinador","Comparador","Impresor"],["0","1"],"Avanzador",["Impresor"],f_pal,[palabra])
 t.correr()

@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+from time import sleep
 
 from constants import *
 
@@ -66,11 +67,13 @@ class TM(object):
                 c.left()
             elif movimientos[i] == R:
                 c.right()
-    def correr(self):
+    def correr(self,slowly=0.7):
         while not self.paro():
             print(self)
             print("*"*80)
+            sleep(slowly)
             self.avanzar()
+        sleep(slowly)
         print(self)
     def paro(self):
         return self.estado in self.qs_finales
