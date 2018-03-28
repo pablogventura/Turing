@@ -1,48 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-L = 0
-R = 1
-S = 2
-
-playSym = "▷"
-blankSym = "□"
-epsilonSym = "ε"
-
-def warning(s):
-    print("WARNING: %s" % s)
-
-def f_pal(estado,lecturas):
-    a,b,c = lecturas
-    if estado == 0:
-        # avanzar al final en la cinta de entrada
-        if a != blankSym:
-            return (0,lecturas,(R,S,S))
-        else:
-            return (1,lecturas,(L,R,S))
-    elif estado == 1:
-        # copiar la cinta
-        if a != playSym:
-            return (1,(a,a,c),(L,R,S))
-        else:
-            return (2,lecturas,(S,S,S))
-    elif estado == 2:
-        # rebobinar
-        if b != playSym:
-            return (2,lecturas,(S,L,S))
-        else:
-            return (3,lecturas,(S,R,S))
-    elif estado == 3:
-        # comparar
-        if a == blankSym:
-            return (4,(a,b,"1"),(S,S,S))
-        elif a != b:
-            return (4,(a,b,"0"),(S,S,S))
-        else:
-            return (3,lecturas,(R,R,S))
-    else:
-        return (estado,lecturas,(S,S,S))
-    
+from constants import *
 
 class Cinta(object):
     """
@@ -109,12 +68,17 @@ class TM(object):
                 c.right()
     def correr(self):
         while not self.paro():
+            print(self)
+            print("*"*80)
             self.avanzar()
+        print(self)
     def paro(self):
         return self.estado in self.qs_finales
     def __repr__(self):
         result = "TM(\n"
+        result += "\tEstado:%s\n" % self.estado
         for c in self.cintas:
             result += "\t%s,\n" % repr(c)
         result += ")"
         return result
+
