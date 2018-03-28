@@ -32,7 +32,7 @@ def f_pal(estado,lecturas):
         if b != playSym:
             return (2,lecturas,(S,L,S))
         else:
-            return (3,lecturas,(S,R,S))
+            return (3,lecturas,(S,S,S))
     elif estado == 3:
         # comparar
         if a == blankSym:
@@ -44,6 +44,6 @@ def f_pal(estado,lecturas):
     else:
         return (estado,lecturas,(S,S,S))
 
-palabra = input("Ingrese una palabra en {0,1}^*:")
+palabra=input("Ingrese una palabra en {0,1}^*:")
 t=TM([0,1,2,3,4],["0","1"],0,[4],f_pal,[palabra])
 t.correr()
